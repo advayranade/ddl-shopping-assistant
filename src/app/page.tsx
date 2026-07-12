@@ -38,6 +38,7 @@ export default function Home() {
   const [activeProfile, setActiveProfile] = useState<UserProfile | null>(null)
   const [providerConfig, setProviderConfig] = useState<ProviderConfig | null>(null)
   const [configLoaded, setConfigLoaded] = useState(false)
+  const [highlightedIds, setHighlightedIds] = useState<string[]>([])
 
   useEffect(() => {
     try {
@@ -71,11 +72,11 @@ export default function Home() {
       {!providerConfig && <ApiKeyModal onSave={handleSaveConfig} />}
 
       {/* Header */}
-      <header className="flex-shrink-0 bg-blue-700 text-white px-4 py-2.5 flex items-center gap-4 shadow-sm">
+      <header className="flex-shrink-0 bg-gradient-to-r from-blue-800 via-blue-700 to-indigo-700 text-white px-4 py-3 flex items-center gap-4 shadow-md relative z-10">
         <div className="flex items-center gap-2">
-          <span className="text-2xl">🛒</span>
+          <span className="text-2xl drop-shadow-sm">🛒</span>
           <span className="text-xl font-bold tracking-tight">ShopSmart</span>
-          <span className="text-blue-300 text-xs ml-1 italic">AI Demo</span>
+          <span className="text-blue-200 text-xs ml-1 italic bg-white/10 px-1.5 py-0.5 rounded-full">AI Demo</span>
         </div>
 
         {/* Fake search bar */}
@@ -127,10 +128,16 @@ export default function Home() {
             products={visibleProducts}
             activeCategory={activeCategory}
             onCategoryChange={setActiveCategory}
+            highlightedIds={highlightedIds}
+            onClearHighlights={() => setHighlightedIds([])}
           />
         </main>
 
-        <AgentPanel profile={activeProfile} providerConfig={providerConfig} />
+        <AgentPanel
+          profile={activeProfile}
+          providerConfig={providerConfig}
+          onHighlightProducts={setHighlightedIds}
+        />
       </div>
     </div>
   )

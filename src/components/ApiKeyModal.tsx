@@ -123,4 +123,5 @@ const PROVIDER_ICONS: Record<AIProvider, string> = {
   anthropic: '🔶',
   google: '🔵',
   xai: '✖️',
+  vercel: '▲',
 }

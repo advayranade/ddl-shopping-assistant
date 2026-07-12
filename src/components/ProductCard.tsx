@@ -11,9 +11,10 @@ const CATEGORY_BG: Record<string, string> = {
 
 interface Props {
   product: Product
+  highlighted?: boolean
 }
 
-export default function ProductCard({ product }: Props) {
+export default function ProductCard({ product, highlighted = false }: Props) {
   const emoji = PRODUCT_EMOJI[product.id] ?? CATEGORY_EMOJI[product.category] ?? '📦'
   const bg = CATEGORY_BG[product.category] ?? 'bg-gray-50'
   const discount = product.originalPrice
@@ -21,7 +22,19 @@ export default function ProductCard({ product }: Props) {
     : null
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 flex flex-col hover:shadow-md transition-shadow">
+    <div
+      className={`relative bg-white rounded-lg flex flex-col transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 ${
+        highlighted
+          ? 'border-2 border-amber-400 shadow-md shadow-amber-100 ring-2 ring-amber-200 animate-[popIn_0.3s_ease-out]'
+          : 'border border-gray-200'
+      }`}
+    >
+      {highlighted && (
+        <span className="absolute -top-2.5 left-2 z-10 flex items-center gap-1 bg-gradient-to-r from-amber-400 to-orange-400 text-white text-[10px] font-semibold px-2 py-0.5 rounded-full shadow-sm">
+          ✨ AI Pick
+        </span>
+      )}
+
       {/* Image placeholder */}
       <div className={`${bg} rounded-t-lg flex items-center justify-center h-36 text-5xl`}>
         {emoji}
